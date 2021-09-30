@@ -1,74 +1,66 @@
-//https://www.eclipse.org/paho/clients/js/
+import Wifi
+from machine import Pin
+import time
+from umqtt.simple import MQTTClient
+import webrepl
 
-function LED1_On() {
-	//alert("led on");
-	console.log("led on");
-	//document.getElementById("sensor").innerHTML="led on";
-	message = new Paho.MQTT.Message("ON");
-    	message.destinationName = "lfrenteriax@hotmail.com/test1";
-    	client.send(message);
-  
-}
-function LED1_Off(){	
-	//alert("led off");
-	console.log("led off");
-	message = new Paho.MQTT.Message("OFF");
-    	message.destinationName = "lfrenteriax@hotmail.com/test1";
-    	client.send(message);
-	//document.getElementById("sensor").innerHTML="led off";
-}
+boton1=Pin(5,Pin.IN)
+boton2=Pin(14,Pin,IN)
+
+f=open('PruebaB1.txt','a')
+f.closed()
+f=open('PruebaB2.txt','b')
+f.closed()
+
+rc=0
+while rc==0:
+ estado1 =boton1.value()
+def on_message(client,obj,msg):
+print(msg.topic+""+str(msg.qos)+""+msg.payload.decode('uft-8'))
+x=len(msg.payload.decode('uft-8'))
+y=len("Boton1")
+z=len("Boton2")
+p=len("Boton3")
+
+if x==y:
+f=open('PruebaB1txt','r+')
+f.write(estado1)
+rt=f.read(10)
+print(str(rt));
+f.close()
+time.sleep(1)
+
+client.publish('andresandino36@gmail.com/T1',str(rt))
+else:
+if x==z:
+estado2=boton2.value()
+f.open('PruebaB2.txt','r+')
+f.write(estado2)
+time.sleep(3)
+wt=f.read()
+print(str(wt));
+f.close()
+time.sleep(1)
+
+client.publish('andresandino36@gmail.com/T1',str(rt))
+else
+if x==p:
+f.open('FinalAB.txt','a')
+f.write(a+b)
+time.sleep(3)
+jt=f.read()
+print(str(jt));
+f.close()
+time.sleep(1)
+
+client.publish('andresandino36@gmail.com/T1',str(rt))
 
 
+cliente = MQTTClient('andres','maqiatto.com',1883,'andresandino36@gmail.com')cliente.connect()
 
+#j= "El estado del boton 1 es:" + " "+a+ "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + "El valor del Boton2 es:" + " "+b
 
+#print(j)
+#client.publish('andresandino36@gmail.com/T1',j)
 
-
-// Create a client instance
-  //client = new Paho.MQTT.Client("postman.cloudmqtt.com", 14970);
-  
-  client = new Paho.MQTT.Client("maqiatto.com", 8883, "web_" + parseInt(Math.random() * 100, 10));
-
-  // set callback handlers
-  client.onConnectionLost = onConnectionLost;
-  client.onMessageArrived = onMessageArrived;
-  var options = {
-   useSSL: false,
-    userName: "lfrenteriax@hotmail.com",
-    password: "lfrenteriax",
-    onSuccess:onConnect,
-    onFailure:doFail
-  }
-
-  // connect the client
-  client.connect(options);
-   
-  // called when the client connects
-  function onConnect() {
-    // Once a connection has been made, make a subscription and send a message.
-    console.log("Conectado...");
-	
-    client.subscribe("lfrenteriax@hotmail.com/test");
-    message = new Paho.MQTT.Message("hola desde la web");
-    message.destinationName = "lfrenteriax@hotmail.com/test1";
-    client.send(message);
-	
-  }
-
-  function doFail(e){
-    console.log(e);
-	
-  }
-
-  // called when the client loses its connection
-  function onConnectionLost(responseObject) {
-    if (responseObject.errorCode !== 0) {
-      console.log("onConnectionLost:"+responseObject.errorMessage);
-    }
-  }
-
-  // called when a message arrives
-  function onMessageArrived(message) {
-    console.log("onMessageArrived:"+message.payloadString);
-	  document.getElementById("sensor").innerHTML=message.payloadString;
-  }
-  
+time.sleep_ms(250)
